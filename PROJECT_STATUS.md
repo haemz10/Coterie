@@ -40,7 +40,12 @@ The **service_role** key is NOT in the code.
   realtime + polling fallback).
 - **Moderation:** members can **report** posts/listings/comments; **admins**
   (profiles.is_admin; currently `johnnys2`) review + delete/dismiss at `/admin`.
-- **Founding Club** section + email waitlist (`coterie_waitlist`).
+- **App-style homepage (July 2026 redesign):** communities as an
+  Instagram-style row of story circles up top, feed immediately below,
+  compact marketplace grid, mobile bottom tab bar (Home / Market / ＋ create
+  menu / Messages), one-line footer. Hero/marketing copy and the Founding
+  Club section were removed for clarity (the `coterie_waitlist` table and
+  `/api/waitlist` endpoint still exist if the club returns).
 - **Installable app (PWA):** service worker (`public/sw.js`) with offline
   fallback (`public/offline.html`) + static caching; web app manifest with
   standalone display, app shortcuts, maskable icon, theme color; an in-app
@@ -81,7 +86,8 @@ Storage bucket: `coterie-media` (public, owner-scoped uploads).
    Providers → Email → Confirm email.
 3. **Leaked password protection** now lives under Supabase → Authentication →
    **Attack Protection → Bot and Abuse Protection → "Prevent use of leaked
-   passwords"** (HaveIBeenPwned check). Recommended, not launch-blocking.
+   passwords"** (HaveIBeenPwned check). Requires the Pro plan — recommended
+   but NOT launch-blocking; skip until Pro is needed for other reasons.
 4. **Supabase is now Coterie-only (DONE).** The abandoned `v0-community-platform-ui`
    footprint was removed from this project: its `on_auth_user_created` trigger,
    `handle_new_user()` function, and unused tables (`profiles`, `posts`,
@@ -110,8 +116,14 @@ Storage bucket: `coterie-media` (public, owner-scoped uploads).
 ---
 
 ## How to resume in a new session
-1. Read this file first.
-2. Code lives in `haemz10/Coterie` (`main`). Deploys happen automatically on push.
+1. **Connect the `haemz10/Coterie` repository** — NOT `haemz10/zinchoc`.
+   zinchoc's default branch is the Zin Choc website and contains no Coterie
+   files; Coterie only exists there on the backup branch
+   `claude/coterie-homepage-redesign-38u35j`. A session opened on zinchoc's
+   default branch will report "PROJECT_STATUS.md not found" — that is
+   expected, not an error.
+2. Read this file first. Code lives in `haemz10/Coterie` (`main`); deploys
+   happen automatically on push.
 3. Supabase changes: use the Supabase MCP tools against project
    `anwjhnbqqwseyvzctmyl` (apply_migration / execute_sql / get_advisors).
 4. Real user data exists (≈8 accounts, a couple of communities/posts) — never
