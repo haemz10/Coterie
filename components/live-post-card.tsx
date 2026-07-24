@@ -117,20 +117,40 @@ export function LivePostCard({ post }: { post: LivePost }) {
 
   return (
     <article className="overflow-hidden rounded-2xl border border-clay/25 bg-white shadow-sm">
-      {post.image && (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img
-          src={post.image}
-          alt=""
-          className="w-full object-cover"
-          loading="lazy"
-        />
-      )}
+      {post.image &&
+        (post.community ? (
+          <a href={`/c/${post.community.id}`} className="block">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={post.image}
+              alt=""
+              className="w-full object-cover"
+              loading="lazy"
+            />
+          </a>
+        ) : (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            src={post.image}
+            alt=""
+            className="w-full object-cover"
+            loading="lazy"
+          />
+        ))}
       <div className="p-4">
         <div className="flex items-center justify-between gap-2">
-          <span className="rounded-full bg-clay/10 px-2.5 py-1 text-xs font-semibold text-clay">
-            {post.community?.name ?? "Coterie"}
-          </span>
+          {post.community ? (
+            <a
+              href={`/c/${post.community.id}`}
+              className="rounded-full bg-clay/10 px-2.5 py-1 text-xs font-semibold text-clay transition-colors hover:bg-clay/20 active:bg-clay/25"
+            >
+              {post.community.name}
+            </a>
+          ) : (
+            <span className="rounded-full bg-clay/10 px-2.5 py-1 text-xs font-semibold text-clay">
+              Coterie
+            </span>
+          )}
           <div className="flex items-center gap-2">
             {/* Relative time differs by a second between server render and
                 hydration; suppress the resulting hydration warning. */}
@@ -212,6 +232,13 @@ export function LivePostCard({ post }: { post: LivePost }) {
               </button>
             </div>
           </div>
+        ) : post.community ? (
+          <a
+            href={`/c/${post.community.id}`}
+            className="mt-3 block text-sm leading-relaxed text-ink/80"
+          >
+            {caption}
+          </a>
         ) : (
           <p className="mt-3 text-sm leading-relaxed text-ink/80">{caption}</p>
         )}
